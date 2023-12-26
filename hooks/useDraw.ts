@@ -1,10 +1,13 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 export const useDraw=(onDraw :({ctx, currentPoint , prevPoint} : Draw)=> void) =>{
-     
+  const [mouseDown , setMouseDown ]  = useState(false)    
   const canvasRef = useRef<HTMLCanvasElement>(null)
+   
 
 
+  const onMouseDown = ()=> setMouseDown(true)
+   const prevPoint  = useRef<null | Point>(null)
     useEffect(()=>{
      // add event listeners
    const handler = ( e: MouseEvent)=>{
@@ -38,5 +41,5 @@ export const useDraw=(onDraw :({ctx, currentPoint , prevPoint} : Draw)=> void) =
     } , [])
 
 
-    return {canvasRef}
+    return {canvasRef  , onMouseDown}
 }
