@@ -21,7 +21,13 @@ type DrawLine = {
 
 }
 io.on('connection' , (socket)=>{
+    console.log("connection")
     socket.on('draw-line', ({prevPoint , currentPoint , color} : DrawLine)=>{
-        socket.broadcast.emit('draw-line' , {prevPoint})
+        socket.broadcast.emit('draw-line' , {prevPoint , currentPoint , color})
     })
 })
+
+server.listen(3001 , ()=>{
+    console.log("server started")
+})
+
