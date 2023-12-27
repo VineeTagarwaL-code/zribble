@@ -2,22 +2,24 @@
 
 import { FC, useState } from "react";
 import { useDraw } from "@/hooks/useDraw";
-import { drawLine } from "@/utils/drawLine";
-import { io } from "socket.io-client";
 import { ChromePicker } from 'react-color'
+
+import { io } from 'socket.io-client'
+import { drawLine } from '../utils/drawLine'
+const socket = io('http://localhost:3001')
 interface pageProps { }
-const socket  = io('http://localhost:3200')
+
 const page: FC<pageProps> = ({ }) => {
   const [color, setColor] = useState<string>('#000')
-  const { canvasRef, onMouseDown, clear } = useDraw(drawLine)
+  const { canvasRef, onMouseDown, clear } = useDraw(createLine)
 
 
-  function drawLine({ prevPoint, currentPoint, ctx }: Draw) {
-    
-  }
 
-  function createLine({prevPoint , currentPoint , ctx }:Draw){
 
+
+    function createLine({ prevPoint, currentPoint, ctx }: Draw) {
+    socket.emit('draw-line', { prevPoint, currentPoint, color })
+    drawLine({ prevPoint, currentPoint, ctx, color })
   }
 return (
     <div className='w-screen h-screen bg-white flex justify-center items-center'>
